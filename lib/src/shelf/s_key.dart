@@ -1,4 +1,4 @@
-// Copyright (c) 2025 The Order of Runes Authors. All rights reserved.
+// Copyright (c) 2025 Order of Runes Authors. All rights reserved.
 
 abstract interface class SKey {
 

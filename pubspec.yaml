@@ -14,9 +14,14 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_secure_storage: ^9.2.4
+  foundation:
+    git:
+      url: https://github.com/Order-of-Runes/foundation.git
+      ref: main
   intl: ^0.20.1
   package_info_plus: ^8.2.1
   path_provider: ^2.1.5
+  permission_handler: ^12.0.1
   rusty_dart:
     git:
       url: https://github.com/TheMakersPrime/rusty_dart.git
