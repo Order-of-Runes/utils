@@ -1,4 +1,4 @@
-// Copyright (c) 2025 EShare Authors. All rights reserved.
+// Copyright (c) 2025 Order of Runes Authors. All rights reserved.
 
 import 'dart:convert';
 import 'dart:io';
@@ -6,9 +6,10 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sherlog/sherlog.dart';
+import 'package:utils/src/shelf/s_key.dart';
 
-class ShelfCore {
-  ShelfCore({
+class Shelf {
+  Shelf({
     this.enableLog = false,
     this.protectedKeys = const {},
   }) : _sherlog = Sherlog(
@@ -26,7 +27,7 @@ class ShelfCore {
 
   /// Passed keys are protected from removal unless the app data is cleared
   /// or the app itself is removed or re-installed
-  final Set<String> protectedKeys;
+  final Set<SKey> protectedKeys;
 
   Future<void> init() async {
     _store = const FlutterSecureStorage(
@@ -51,10 +52,11 @@ class ShelfCore {
 
   Future<void> reload() => _read('Reload');
 
-  Future<bool> delete(String key) async {
-    if (_easyStore.containsKey(key)) {
-      _easyStore.remove(key);
-      await _store.delete(key: key);
+  Future<bool> delete(SKey key) async {
+    final _key = key.name;
+    if (_easyStore.containsKey(_key)) {
+      _easyStore.remove(_key);
+      await _store.delete(key: _key);
       _log(key, ['DELETE']);
       return true;
     }
@@ -65,8 +67,9 @@ class ShelfCore {
     final backup = <String, String>{};
     if (protectedKeys.isNotEmpty) {
       for (final key in protectedKeys) {
-        if (_easyStore.containsKey(key)) {
-          backup[key] = _easyStore[key]!;
+        final _key = key.name;
+        if (_easyStore.containsKey(_key)) {
+          backup[_key] = _easyStore[_key]!;
         }
       }
     }
@@ -80,13 +83,14 @@ class ShelfCore {
     }
   }
 
-  Future<void> put<T>(Keys key, T value) async {
+  Future<void> put<T>(SKey key, T value) async {
     try {
       final encodedValue = jsonEncode(value);
-      _easyStore[key] = encodedValue;
-      await _store.write(key: key, value: encodedValue);
+      final _key = key.name;
+      _easyStore[_key] = encodedValue;
+      await _store.write(key: _key, value: encodedValue);
 
-      _log(encodedValue, [_getHeader('PUT', key)]);
+      _log(encodedValue, [_getHeader('PUT', _key)]);
     } on Exception catch (e, s) {
       Sherlog(
         level: LogLevel.error,
@@ -98,16 +102,17 @@ class ShelfCore {
     }
   }
 
-  T? get<T>(String key, [T? defaultValue]) {
+  T? get<T>(SKey key, [T? defaultValue]) {
     try {
       final T? value;
-      if (_easyStore.containsKey(key)) {
-        value = jsonDecode(_easyStore[key]!) as T?;
+      final _key = key.name;
+      if (_easyStore.containsKey(_key)) {
+        value = jsonDecode(_easyStore[_key]!) as T?;
       } else {
         value = defaultValue;
       }
 
-      _log(value ?? '', [_getHeader('GET', key)]);
+      _log(value ?? '', [_getHeader('GET', _key)]);
 
       return value;
     } on Exception catch (e, s) {
@@ -116,8 +121,8 @@ class ShelfCore {
     return null;
   }
 
-  bool containsKey(String key) {
-    return _easyStore.containsKey(key);
+  bool containsKey(SKey key) {
+    return _easyStore.containsKey(key.name);
   }
 
   String _getHeader(String method, String key) => '$method : $key';
@@ -142,17 +147,4 @@ class ShelfCore {
       _sherlog.info(content, headers: ['Shelf', ...headers]);
     }
   }
-}
-
-enum MKeys implements Keys {
-  k1('abc');
-
-  @override
-  final String name;
-
-  const MKeys(this.name);
-}
-
-abstract class Keys {
-  String get name;
 }
