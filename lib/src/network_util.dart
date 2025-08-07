@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:foundation/foundation.dart';
 
 const List<ConnectivityResult> _acceptedNetworkResults = [
   ConnectivityResult.wifi,
@@ -11,12 +12,13 @@ const List<ConnectivityResult> _acceptedNetworkResults = [
   ConnectivityResult.vpn,
 ];
 
-class NetworkUtil {
+class NetworkUtil extends NetworkInfoFoundation {
   late final Connectivity _connectivity;
 
   StreamSubscription<bool>? _streamSubscription;
   bool _hasNetwork = false;
 
+  @override
   bool get isAvailable => _hasNetwork;
 
   bool _initialized = false;
