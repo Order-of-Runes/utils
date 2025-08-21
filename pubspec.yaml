@@ -1,6 +1,6 @@
 name: utils
 description: "A collection of utility functions"
-version: 0.0.4
+version: 0.0.5
 publish_to: none
 
 environment:
@@ -17,7 +17,7 @@ dependencies:
   foundation:
     git:
       url: https://github.com/Order-of-Runes/foundation.git
-      ref: main
+      ref: 0.0.14
   intl: ^0.20.1
   package_info_plus: ^8.2.1
   path_provider: ^2.1.5
