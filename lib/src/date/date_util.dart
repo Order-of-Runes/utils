@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Order of Runes Authors. All rights reserved.
 
 import 'package:intl/intl.dart';
+import 'package:utils/src/date/date_pattern.dart';
 import 'package:utils/src/empty_util.dart';
 
 class DateTimeUtil {
@@ -17,7 +18,7 @@ class DateTimeUtil {
   }
 
   /// Format the date based on the [pattern]
-  String format(DateFormat pattern) {
+  String format(DatePattern pattern) {
     if (_dateTime.isNull) return '';
     return DateFormat(pattern.pattern).format(_dateTime!);
   }

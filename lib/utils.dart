@@ -2,7 +2,7 @@
 
 export 'src/binding_util.dart';
 export 'src/biometric_util.dart';
-export 'src/date/date_format.dart';
+export 'src/date/date_pattern.dart';
 export 'src/date/date_util.dart';
 export 'src/device_util.dart';
 export 'src/empty_util.dart';
