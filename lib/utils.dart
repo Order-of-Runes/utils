@@ -13,7 +13,6 @@ export 'src/network_util.dart';
 export 'src/number_utils.dart';
 export 'src/package_util.dart';
 export 'src/path_util.dart';
-export 'src/permission/permission_failure.dart';
 export 'src/permission/permission_util.dart';
 export 'src/platform_util.dart';
 export 'src/regex_util.dart';
