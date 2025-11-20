@@ -7,6 +7,8 @@ import 'package:utils/src/empty_util.dart';
 class DateTimeUtil {
   DateTimeUtil(DateTime? dateTime) : _dateTime = dateTime?.toLocal();
 
+  DateTimeUtil.utc(DateTime? dateTime) : _dateTime = dateTime;
+
   DateTimeUtil.raw(String rawDateTime) : _dateTime = DateTime.tryParse(rawDateTime)?.toLocal();
 
   final DateTime? _dateTime;
