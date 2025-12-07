@@ -5,7 +5,9 @@ import 'package:utils/src/date/date_pattern.dart';
 import 'package:utils/src/empty_util.dart';
 
 class DateTimeUtil {
-  DateTimeUtil(DateTime? dateTime) : _dateTime = dateTime?.toLocal();
+  DateTimeUtil(DateTime? dateTime) : _dateTime = dateTime;
+
+  DateTimeUtil.local(DateTime? dateTime) : _dateTime = dateTime?.toLocal();
 
   DateTimeUtil.raw(String rawDateTime) : _dateTime = DateTime.tryParse(rawDateTime)?.toLocal();
 
